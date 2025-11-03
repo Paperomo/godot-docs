@@ -319,7 +319,7 @@ Customizing module types initialization
 
 Modules can interact with other built-in engine classes during runtime and even
 affect the way core types are initialized. So far, we've been using
-``register_summator_types`` as a way to bring in module classes to be available
+``initialize_summator_module`` as a way to bring in module classes to be available
 within the engine.
 
 A crude order of the engine setup can be summarized as a list of the following
