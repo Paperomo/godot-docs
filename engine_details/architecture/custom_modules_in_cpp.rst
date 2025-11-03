@@ -322,25 +322,6 @@ affect the way core types are initialized. So far, we've been using
 ``initialize_summator_module`` as a way to bring in module classes to be available
 within the engine.
 
-A crude order of the engine setup can be summarized as a list of the following
-type registration methods:
-
-.. code-block:: cpp
-
-    preregister_module_types();
-    preregister_server_types();
-    register_core_singletons();
-    register_server_types();
-    register_scene_types();
-    EditorNode::register_editor_types();
-    register_platform_apis();
-    register_module_types();
-    initialize_physics();
-    initialize_navigation_server();
-    register_server_singletons();
-    register_driver_types();
-    ScriptServer::init_languages();
-
 Our ``Summator`` class is initialized during the ``register_module_types()``
 call. Imagine that we need to satisfy some common module runtime dependency
 (like singletons), or allow us to override existing engine method callbacks
