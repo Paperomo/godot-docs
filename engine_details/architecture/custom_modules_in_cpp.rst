@@ -322,52 +322,8 @@ affect the way core types are initialized. So far, we've been using
 ``initialize_summator_module`` as a way to bring in module classes to be available
 within the engine.
 
-Our ``Summator`` class is initialized during the ``register_module_types()``
-call. Imagine that we need to satisfy some common module runtime dependency
-(like singletons), or allow us to override existing engine method callbacks
-before they can be assigned by the engine itself. In that case, we want to
-ensure that our module classes are registered *before* any other built-in type.
-
-This is where we can define an optional ``preregister_summator_types()``
-method which will be called before anything else during the
-``preregister_module_types()`` engine setup stage.
-
-We now need to add this method to ``register_types`` header and source files:
-
-.. code-block:: cpp
-    :caption: godot/modules/summator/register_types.h
-
-    #define MODULE_SUMMATOR_HAS_PREREGISTER
-    void preregister_summator_types();
-
-    void register_summator_types();
-    void unregister_summator_types();
-
-.. note:: Unlike other register methods, we have to explicitly define
-          ``MODULE_SUMMATOR_HAS_PREREGISTER`` to let the build system know what
-          relevant method calls to include at compile time. The module's name
-          has to be converted to uppercase as well.
-
-.. code-block:: cpp
-    :caption: godot/modules/summator/register_types.cpp
-
-    #include "register_types.h"
-
-    #include "core/object/class_db.h"
-    #include "summator.h"
-
-    void preregister_summator_types() {
-        // Called before any other core types are registered.
-        // Nothing to do here in this example.
-    }
-
-    void register_summator_types() {
-        ClassDB::register_class<Summator>();
-    }
-
-    void unregister_summator_types() {
-       // Nothing to do here in this example.
-    }
+Our ``Summator`` class is initialized during the ``initialize_modules(MODULE_INITIALIZATION_LEVEL_SCENE)``
+call.
 
 Writing custom documentation
 ----------------------------
